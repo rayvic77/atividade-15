@@ -1,514 +1,66 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>BatatinhaTeam | Jiu-Jitsu de Verdade</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"/>
-  <style>
-    /* Reset e base */
-    body {
-      background-color: #121212;
-      color: #e0e0e0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      scroll-behavior: smooth;
-    }
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./src/favicons/pokebola.png" />
+    <link rel="stylesheet" href="./src/css/style.css" />
+    <title>Pokédex</title>
+  </head>
+  <body>
+    <main>
+      <img src="#" alt="pokemon" class="pokemon_image" />
+      
+      <h1 class="pokemon_data">
+        <span class="pokemon_number"></span> -
+        <span class="pokemon_name"></span>
+      </h1>
 
-    /* Navbar */
-    .navbar {
-      background: linear-gradient(90deg, #000000ee 0%, #121212dd 100%);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.7);
-      transition: background-color 0.3s ease;
-    }
-    .navbar.scrolled {
-      background-color: #000 !important;
-      box-shadow: 0 4px 12px rgba(190, 16, 10, 0.7);
-    }
-    .navbar-brand strong {
-      color: #ff1100;
-      font-weight: 900;
-      font-size: 1.5rem;
-      letter-spacing: 1.2px;
-    }
-    .nav-link {
-      color: #bbb !important;
-      font-weight: 600;
-      transition: color 0.3s ease;
-      position: relative;
-    }
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      width: 0%;
-      height: 2px;
-      bottom: -6px;
-      left: 0;
-      background-color: #9e0d0d;
-      transition: width 0.3s ease;
-    }
-    .nav-link:hover, .nav-link:focus {
-      color: #aa1c17 !important;
-    }
-    .nav-link:hover::after, .nav-link:focus::after {
-      width: 100%;
-    }
+      <!-- 🔽 TABELA DE INFORMAÇÕES -->
+      <table class="pokemon_info">
+        <tr>
+          <th>Tipo</th>
+          <td class="info_type"></td>
+        </tr>
+        <tr>
+          <th>Altura</th>
+          <td class="info_height"></td>
+        </tr>
+        <tr>
+          <th>Peso</th>
+          <td class="info_weight"></td>
+        </tr>
+        <tr>
+          <th>HP</th>
+          <td class="info_hp"></td>
+        </tr>
+        <tr>
+          <th>Ataque</th>
+          <td class="info_attack"></td>
+        </tr>
+        <tr>
+          <th>Defesa</th>
+          <td class="info_defense"></td>
+        </tr>
+      </table>
 
-    /* Hero */
-    .hero {
-      position: relative;
-      background: url('https://source.unsplash.com/1600x800/?jiu-jitsu') center/cover no-repeat;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 0 15px;
-      overflow: hidden;
-    }
-    .hero::after {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 1;
-    }
-    .hero-content {
-      position: relative;
-      color: #9e0d0d;
-      z-index: 2;
-      max-width: 900px;
-      animation: fadeInUp 1.2s ease forwards;
-    }
-    .hero-content h1 {
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 900;
-      text-shadow: 0 0 12px #9e0d0d;
-      margin-bottom: 0.3em;
-      letter-spacing: 3px;
-    }
-    .hero-content p.lead {
-      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-      margin-bottom: 1.5em;
-      color: #f5f5f5cc;
-      text-shadow: 0 0 8px #000;
-    }
-    .btn-cta {
-      background-color: #9e0d0d;
-      border: none;
-      padding: 15px 40px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      border-radius: 50px;
-      box-shadow: 0 0 12px #9e0d0d;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      text-transform: uppercase;
-    }
-    .btn-cta:hover, .btn-cta:focus {
-      background-color: #9e0d0d;
-      transform: scale(1.05);
-      box-shadow: 0 0 20px #9e0d0d;
-    }
+      <form class="form">
+        <input
+          type="search"
+          class="input_search"
+          placeholder="Name or Number"
+          required
+        />
+      </form>
 
-    /* Sections */
-    .section-dark, .section-light {
-      padding: 70px 15px;
-      max-width: 1200px;
-      margin: 0 auto;
-      border-radius: 15px;
-    }
-    .section-dark {
-      background-color: #1b1b1b;
-      box-shadow: 0 0 15px #000;
-    }
-    .section-light {
-      background-color: #2d2d2d;
-      box-shadow: 0 0 15px #111;
-    }
-    h2 {
-      font-weight: 900;
-      color: #9e0d0d;
-      margin-bottom: 40px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      text-align: center;
-      text-shadow: 0 0 8px #9e0d0d;
-    }
-
-    /* Benefícios */
-    #beneficios .bi {
-      color: #9e0d0d;
-      transition: transform 0.3s ease;
-    }
-    #beneficios .col-md-4:hover .bi {
-      transform: scale(1.3);
-      color: #ff8c00;
-    }
-    #beneficios h5 {
-      font-weight: 700;
-      margin-bottom: 10px;
-      color: #f5f5f5;
-    }
-    #beneficios p {
-      font-size: 1.1rem;
-      color: #ccc;
-      line-height: 1.4;
-    }
-
-    /* Planos */
-    .card-pricing {
-      background-color: #222;
-      border: 2px solid #333;
-      border-radius: 15px;
-      color: #eee;
-      transition: all 0.4s ease;
-      padding: 30px 25px;
-      box-shadow: 0 0 10px #000 inset;
-    }
-    .card-pricing:hover {
-      border-color: #9e0d0d;
-      box-shadow: 0 0 25px #9e0d0d;
-      transform: scale(1.07);
-      z-index: 5;
-    }
-    .card-pricing h5 {
-      font-weight: 700;
-      margin-bottom: 15px;
-      color: #9e0d0d;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-    }
-    .card-pricing h3 {
-      font-weight: 900;
-      margin: 20px 0;
-      font-size: 2rem;
-      color: #fff;
-      text-shadow: 0 0 10px #9e0d0d;
-    }
-    .card-pricing p {
-      font-size: 1.1rem;
-      color: #ddd;
-    }
-    .btn-outline-light {
-      border-radius: 30px;
-      font-weight: 700;
-      padding: 10px 25px;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    .btn-outline-light:hover {
-      background-color: #9e0d0d;
-      color: #fff !important;
-      border-color: #9e0d0d;
-      box-shadow: 0 0 12px #9e0d0d;
-    }
-    .btn-warning {
-      border-radius: 30px;
-      font-weight: 700;
-      padding: 10px 25px;
-      box-shadow: 0 0 10px #9e0d0d;
-      transition: background-color 0.3s ease;
-    }
-    .btn-warning:hover {
-      background-color: #9e0d0d;
-      box-shadow: 0 0 15px #9e0d0d;
-    }
-
-    /* Galeria */
-    #galeria img {
-      cursor: pointer;
-      border: 3px solid transparent;
-      transition: transform 0.3s ease, border-color 0.3s ease;
-      border-radius: 12px;
-      box-shadow: 0 0 15px #000;
-      object-fit: cover;
-      height: 250px;
-      width: 100%;
-      display: block;
-    }
-    #galeria img:hover, #galeria img:focus {
-      transform: scale(1.05);
-      border-color: #9e0d0d;
-      box-shadow: 0 0 25px #9e0d0d;
-      outline: none;
-    }
-
-    /* Depoimentos */
-    .testimonial {
-      background-color: #292929;
-      border-left: 6px solid #9e0d0d;
-      padding: 25px 30px;
-      margin-bottom: 25px;
-      border-radius: 12px;
-      font-style: italic;
-      box-shadow: 0 0 15px #000 inset;
-      transition: box-shadow 0.3s ease;
-    }
-    .testimonial:hover {
-      box-shadow: 0 0 20px #9e0d0d; inset;
-    }
-    .testimonial p {
-      font-size: 1.15rem;
-      color: #ddd;
-      margin-bottom: 10px;
-    }
-    .testimonial small {
-      color: #9e0d0d;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-    }
-
-    /* Contato */
-    #contato p {
-      font-size: 1.2rem;
-      margin-bottom: 15px;
-    }
-    #contato a.btn {
-      font-weight: 700;
-      padding: 10px 20px;
-      font-size: 1rem;
-      border-radius: 50px;
-      box-shadow: 0 0 10px #25d366;
-      transition: box-shadow 0.3s ease;
-    }
-    #contato a.btn:hover, #contato a.btn:focus {
-      box-shadow: 0 0 20px #25d366;
-      text-decoration: none;
-    }
-
-    /* Rodapé */
-    .footer {
-      background-color: #000;
-      padding: 50px 15px;
-      color: #aaa;
-      font-size: 1rem;
-      letter-spacing: 1px;
-      text-shadow: 0 0 4px #000;
-    }
-    .footer a {
-      color: #9e0d0d;
-      margin: 0 15px;
-      transition: color 0.3s ease;
-    }
-    .footer a:hover, .footer a:focus {
-      color: #9e0d0d;
-      text-decoration: none;
-      filter: drop-shadow(0 0 2px #9e0d0d;)
-    }
-
-    /* Responsividade extra */
-    @media (max-width: 767.98px) {
-      .hero-content h1 {
-        font-size: 2.5rem;
-      }
-      .hero-content p.lead {
-        font-size: 1.1rem;
-      }
-      .card-pricing h3 {
-        font-size: 1.5rem;
-      }
-      #galeria img {
-        height: 180px;
-      }
-      .testimonial p {
-        font-size: 1rem;
-      }
-      .btn-cta {
-        padding: 12px 30px;
-        font-size: 1rem;
-      }
-    }
-
-    /* Animação fadeInUp para hero */
-    @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  </style>
-</head>
-<body>
-
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="navbar">
-  <div class="container">
-    <a class="navbar-brand d-flex align-items-center" href="#">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnYjND4A_11u9h7Gx_IXVkKDQ03bkZWWTg1g&s" width="40" height="40" class="me-2" alt="Logo BatatinhaTeam"/>
-      <strong>BatatinhaTeam</strong>
-    </a>
-    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Alternar navegação">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="#beneficios">Benefícios</a></li>
-        <li class="nav-item"><a class="nav-link" href="#planos">Planos</a></li>
-        <li class="nav-item"><a class="nav-link" href="#galeria">Galeria</a></li>
-        <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero" role="banner" aria-label="Imagem de destaque BatatinhaTeam">
-  <div class="hero-content">
-    <h1>BatatinhaTeam</h1>
-    <p class="lead">Jiu-Jitsu com técnica, respeito e resultado.</p>
-    <a href="#planos" class="btn btn-cta mt-3" aria-label="Conheça os Planos">Conheça os Planos</a>
-  </div>
-</section>
-
-<!-- BENEFÍCIOS -->
-<section id="beneficios" class="section-dark text-center" tabindex="0" aria-label="Seção de benefícios de treinar com BatatinhaTeam">
-  <div class="container">
-    <h2>Por que treinar conosco?</h2>
-    <div class="row">
-      <div class="col-md-4 mb-4">
-        <i class="bi bi-heart-pulse fs-1 mb-3" aria-hidden="true"></i>
-        <h5>Saúde e Energia</h5>
-        <p>Condicionamento físico com foco no seu bem-estar.</p>
+      <div class="buttons">
+        <button class="button btn-prev">Prev &lt;</button>
+        <button class="button btn-next">Next &gt;</button>
       </div>
-      <div class="col-md-4 mb-4">
-        <i class="bi bi-people-fill fs-1 mb-3" aria-hidden="true"></i>
-        <h5>Equipe Técnica</h5>
-        <p>Professores com títulos nacionais e internacionais.</p>
-      </div>
-      <div class="col-md-4 mb-4">
-        <i class="bi bi-award fs-1 mb-3" aria-hidden="true"></i>
-        <h5>Resultados Comprovados</h5>
-        <p>Alunos com conquistas em torneios e evolução pessoal.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- PLANOS -->
-<section id="planos" class="section-light" tabindex="0" aria-label="Seção de planos disponíveis da academia">
-  <div class="container">
-    <h2>Escolha seu plano</h2>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-4">
-        <div class="card card-pricing text-center p-4 shadow-sm">
-          <h5>Plano Iniciante</h5>
-          <p>2 treinos por semana</p>
-          <h3>R$149/mês</h3>
-          <a href="#contato" class="btn btn-outline-light mt-3" aria-label="Escolher plano iniciante">Quero esse</a>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card card-pricing text-center p-4 shadow-lg">
-          <h5>Plano Intermediário</h5>
-          <p>4 treinos por semana</p>
-          <h3>R$199/mês</h3>
-          <a href="#contato" class="btn btn-outline-light mt-3" aria-label="Escolher plano intermediário">Quero esse</a>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card card-pricing text-center p-4 shadow-sm">
-          <h5>Plano Profissional</h5>
-          <p>Acesso ilimitado</p>
-          <h3>R$249/mês</h3>
-          <a href="#contato" class="btn btn-outline-light mt-3" aria-label="Escolher plano profissional">Quero esse</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- GALERIA DE IMAGENS -->
-<section id="galeria" class="section-dark" tabindex="0" aria-label="Galeria de imagens da BatatinhaTeam">
-  <div class="container">
-    <h2>Momentos da BatatinhaTeam</h2>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-4 col-sm-6">
-        <img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4npybRDGr3L6GoL6THDHQDnq1I1rVP0H1bkdh9mNWNKG5VgarzJzTjs75VAl7OogpPrglD5jNvvs7qzV5kbtxeMqepQvlFe9q1rdjevfvImGnq9J7qq5RHsytRTbzOtLnIhxejC6dw=s680-w680-h510-rw" alt="Treino 1 na BatatinhaTeam" class="img-fluid rounded shadow" loading="lazy" tabindex="0"/>
-      </div>
-      <div class="col-md-4 col-sm-6">
-        <img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrYfK7IHGch0OThgvU0Fkzfq3u8VpWJFCSzMpx8Oq2_k11FyAnFRucJLov55pzbYgjVirDRc9ICMhzorWyujlzm7hu7KHzo6JGUJYe4PiGwoCiDmnaepdTXowG5mg_y11DdZOqn=s680-w680-h510-rw" alt="Treino 2 na BatatinhaTeam" class="img-fluid rounded shadow" loading="lazy" tabindex="0"/>
-      </div>
-      <div class="col-md-4 col-sm-6">
-        <img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nondT6UxbCKKGB6ooOgtO-8_bROH_yqjfGXxMIUHcgeyAVJjrUI6E35sSAJoD-aky7GxSCmdg1NOh_I2uiWiQgu9y0jAym-UVUWx7xcEZ306bDejGXvzHTtnZIX6AvFHOz8ggc=s680-w680-h510-rw" alt="Treino 3 na BatatinhaTeam" class="img-fluid rounded shadow" loading="lazy" tabindex="0"/>
-      </div>
-      <div class="col-md-4 col-sm-6">
-        <img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqerVUb-SMZKtHWT4j1u9vW-WR0laxWDHcWJSDOoiDArbbjNOH0kp3tRbWq1si9sn4pMOv9nrptNmgkp_BJCXdu9GE3Di2bv77ZOn5Tk66WugMrL5ytEjZjcowLTb30qdYXqRc9nQ=s680-w680-h510-rw" alt="Aula da BatatinhaTeam" class="img-fluid rounded shadow" loading="lazy" tabindex="0"/>
-      </div>
-      <div class="col-md-4 col-sm-6">
-        <img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqHNSmUF0YoXBBMhiK25sbPesvs2KZXL-8r6F8mSZiM9BCK5S9XSpAkcyVlYsIK8vEkv3lBB9gbN_1raARZgCjqSS6z_OsNeXjRiBQnPo3VaiW0mjIG0FpCNIhhqGp4X_VjbXLyDA=s680-w680-h510-rw" alt="Academia BatatinhaTeam" class="img-fluid rounded shadow" loading="lazy" tabindex="0"/>
-      </div>
-      <div class="col-md-4 col-sm-6">
-        <img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4noNNWttL4oyIl1OBfODuCJVdq3t86X0-zfMhItTecsZbQNv1CU5LIrC_lkWEYuO_KbEbgt3qSvtH4cgI9jtXXGs5o7HaxOaGjazw9mlfU4taQ0pXTzgGhLh02i6llypqn1gQhw=s680-w680-h510-rw" alt="Equipe BatatinhaTeam" class="img-fluid rounded shadow" loading="lazy" tabindex="0"/>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- DEPOIMENTOS -->
-<section class="section-light" tabindex="0" aria-label="Depoimentos de alunos da BatatinhaTeam">
-  <div class="container">
-    <h2>O que nossos alunos dizem</h2>
-    <div class="row justify-content-center">
-      <div class="col-md-6 mb-4">
-        <div class="testimonial" tabindex="0">
-          <p>"Treinar na BatatinhaTeam mudou minha vida. A disciplina, o foco e a energia são incríveis."</p>
-          <small>— Arthur Lucas</small>
-        </div>
-      </div>
-      <div class="col-md-6 mb-4">
-        <div class="testimonial" tabindex="0">
-          <p>"Ambiente acolhedor e profissional. Me sinto mais forte físicamente e mentalmente."</p>
-          <small>— Márcio Santos </small>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTATO -->
-<section id="contato" class="section-dark text-center" tabindex="0" aria-label="Seção de contato">
-  <div class="container">
-    <h2>Fale com a gente</h2>
-    <p>Professor Olympio: 
-      <a href="https://wa.me/5531992489876" class="btn btn-success btn-sm" target="_blank" rel="noopener" aria-label="WhatsApp Professor Olympio">
-        <i class="bi bi-whatsapp"></i> WhatsApp
-      </a>
-    </p>
-    <p>Professor Lueuton: 
-      <a href="https://wa.me/5531991174639" class="btn btn-success btn-sm" target="_blank" rel="noopener" aria-label="WhatsApp Professor Lueuton">
-        <i class="bi bi-whatsapp"></i> WhatsApp
-      </a>
-    </p>
-  </div>
-</section>
-
-<!-- RODAPÉ -->
-<footer class="footer text-center" role="contentinfo">
-  <div class="container">
-    <p>Siga a BatatinhaTeam nas redes sociais:</p>
-    <a href="#" aria-label="Instagram BatatinhaTeam"><i class="bi bi-instagram fs-4"></i></a>
-    <a href="#" aria-label="Facebook BatatinhaTeam"><i class="bi bi-facebook fs-4"></i></a>
-    <a href="#" aria-label="YouTube BatatinhaTeam"><i class="bi bi-youtube fs-4"></i></a>
-    <p class="mt-3 mb-0">&copy; 2025 BatatinhaTeam. Todos os direitos reservados.</p>
-  </div>
-</footer>
-
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  // Navbar muda cor ao rolar a página para melhorar visibilidade
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    if(window.scrollY > 50) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
-    }
-  });
-</script>
-</body>
+      <img src="./src/imagens/pokedex.png" alt="pokedex" class="pokedex" />
+    </main>
+    <script src="./src/js/script.js"></script>
+  </body>
 </html>
